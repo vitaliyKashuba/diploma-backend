@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import vitaliy94.attendanceControl.model.Lecturers;
+import vitaliy94.attendanceControl.util.HibernateUtil;
 
 import javax.persistence.metamodel.EntityType;
 
@@ -15,25 +16,10 @@ import java.util.Map;
  * Created by vitaliy on 01.02.2018.
  */
 public class Main {
-    private static final SessionFactory ourSessionFactory;
 
-    static {
-        try {
-            Configuration configuration = new Configuration();
-            configuration.configure();
-
-            ourSessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    public static Session getSession() throws HibernateException {
-        return ourSessionFactory.openSession();
-    }
 
     public static void main(final String[] args) throws Exception {
-        final Session session = getSession();
+        final Session session = HibernateUtil.getSession();
         try {
 //            System.out.println("querying all the managed entities...");
 //            final Metamodel metamodel = session.getSessionFactory().getMetamodel();
