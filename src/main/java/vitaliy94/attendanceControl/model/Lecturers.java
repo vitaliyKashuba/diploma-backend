@@ -76,4 +76,42 @@ public class Lecturers {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+    public static class Stats
+    {
+        String subjName;
+        int attendance = 0;
+        int actualGroupSize;
+
+        public String getSubjName() {
+            return subjName;
+        }
+
+        public int getAttendance() {
+            return attendance;
+        }
+
+        public int getActualGroupSize() {
+            return actualGroupSize;
+        }
+
+
+        public void setSubjName(String subjName) {
+            this.subjName = subjName;
+        }
+
+        public void setAttendance(int attendance) {
+            this.attendance = attendance;
+        }
+
+        public void setActualGroupSize(int actualGroupSize) {
+            this.actualGroupSize = actualGroupSize;
+        }
+
+        public Stats(String subjName, int attendance, int actualGroupSize) {
+            this.subjName = subjName;
+            this.attendance = attendance;
+            this.actualGroupSize = actualGroupSize;
+        }
+    }
 }

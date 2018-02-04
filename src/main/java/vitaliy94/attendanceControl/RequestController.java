@@ -12,6 +12,7 @@ import vitaliy94.attendanceControl.model.VisitingInfo;
 import vitaliy94.attendanceControl.util.AppUtil;
 import vitaliy94.attendanceControl.util.HibernateUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -52,33 +53,32 @@ public class RequestController
     }
 
     @RequestMapping("/getStats/lec/{id}")
-    public String getLecturerStats(@PathVariable int id)
+    public ResponseEntity<String> getLecturerStats(@PathVariable int id)
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Lecturers where id=" + id);
         Lecturers lect = (Lecturers) query.list().get(0);
         System.out.println(lect.getName());
         Collection<Schedule> schedule = lect.getSchedulesById();
-        HashMap<String, Integer> stats = new HashMap<String, Integer>();
+        ArrayList<Lecturers.Stats> stats = new ArrayList<>();
         for(Schedule s : schedule)
         {
             String subjName = s.getSubjectsBySubjectId().getName();
             Query q = session.createQuery("from VisitingInfo where scheduleId = " + s.getId());
             int studCount = q.list().size();
-            if(stats.containsKey(subjName))
-            {
-                stats.replace(subjName, stats.get(subjName)+studCount);
-            }
-            else
-            {
-                stats.put(subjName, studCount);
-            }
+            Query q2 = session.createQuery("from Students where groupId = " + s.getGroupId());
+            int groupSize = q2.list().size();
+            stats.add(new Lecturers.Stats(subjName, studCount, groupSize));
         }
-        for(String k : stats.keySet())
+        String responseBody="";
+        try
         {
-            System.out.println(k + " " + stats.get(k));
+            responseBody = AppUtil.objToString(stats);
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
         }
-        return String.valueOf(id);
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
