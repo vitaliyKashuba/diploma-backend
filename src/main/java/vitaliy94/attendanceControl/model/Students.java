@@ -1,5 +1,7 @@
 package vitaliy94.attendanceControl.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -10,6 +12,7 @@ public class Students {
     private int id;
     private String name;
     private String rfidcode;
+    @JsonIgnore
     private Collection<VisitingInfo> visitingInfosById;
     private Integer groupId;
 

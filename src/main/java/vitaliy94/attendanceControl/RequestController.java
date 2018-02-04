@@ -27,6 +27,9 @@ public class RequestController
         return "Hello world!";
     }
 
+    /**
+     * @return list of lecturers in JSON
+     */
     @RequestMapping("/getLecturers")
     public ResponseEntity<String> getLecturers()
     {
@@ -77,6 +80,45 @@ public class RequestController
         try
         {
             responseBody = AppUtil.objToString(stats);
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    /**
+     * @return list of groups in JSON
+     */
+    @RequestMapping("/getGroups")
+    public ResponseEntity<String> getGroups()
+    {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Groups");
+        String responseBody="";
+        try
+        {
+            responseBody = AppUtil.objToString(query.list());
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    /**
+     * @param id group id
+     * @return list of group in JSON
+     */
+    @RequestMapping("/getStudents/{id}")
+    public ResponseEntity<String> getStudents(@PathVariable int id)
+    {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Students where groupId = " + id);
+        String responseBody="";
+        try
+        {
+            responseBody = AppUtil.objToString(query.list());
         } catch (JsonProcessingException e)
         {
             e.printStackTrace();

@@ -10,6 +10,7 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">postgres</property>
 
+        <mapping class="vitaliy94.attendanceControl.model.Groups"/>
         <mapping class="vitaliy94.attendanceControl.model.Lecturers"/>
         <mapping class="vitaliy94.attendanceControl.model.Schedule"/>
         <mapping class="vitaliy94.attendanceControl.model.Students"/>
