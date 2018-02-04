@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 /**
- * Created by vitaliy on 01.02.2018.
+ * Created by vitaliy on 04.02.2018.
  */
 @Entity
 @Table(name = "students", schema = "public", catalog = "postgres")
@@ -12,7 +12,7 @@ public class Students {
     private int id;
     private String name;
     private String group;
-    private String rfidCode;
+    private String rfidcode;
     private Collection<VisitingInfo> visitingInfosById;
 
     @Id
@@ -48,12 +48,12 @@ public class Students {
 
     @Basic
     @Column(name = "rfidcode", nullable = true, length = 50)
-    public String getRfidCode() {
-        return rfidCode;
+    public String getRfidcode() {
+        return rfidcode;
     }
 
-    public void setRfidCode(String rfidCode) {
-        this.rfidCode = rfidCode;
+    public void setRfidcode(String rfidcode) {
+        this.rfidcode = rfidcode;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Students {
         if (id != students.id) return false;
         if (name != null ? !name.equals(students.name) : students.name != null) return false;
         if (group != null ? !group.equals(students.group) : students.group != null) return false;
-        if (rfidCode != null ? !rfidCode.equals(students.rfidCode) : students.rfidCode != null) return false;
+        if (rfidcode != null ? !rfidcode.equals(students.rfidcode) : students.rfidcode != null) return false;
 
         return true;
     }
@@ -76,7 +76,7 @@ public class Students {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (group != null ? group.hashCode() : 0);
-        result = 31 * result + (rfidCode != null ? rfidCode.hashCode() : 0);
+        result = 31 * result + (rfidcode != null ? rfidcode.hashCode() : 0);
         return result;
     }
 

@@ -2,8 +2,7 @@ package vitaliy94.attendanceControl;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vitaliy94.attendanceControl.model.Lecturers;
 import vitaliy94.attendanceControl.util.HibernateUtil;
 
@@ -41,5 +40,24 @@ public class RequestController
             session.close();
         }
         return sb.toString();
+    }
+
+    @RequestMapping(value = "/post_test", method = RequestMethod.POST)
+    public void postTest(@RequestBody String data)
+    {
+        System.out.println("POST" + data);
+    }
+
+    @RequestMapping("/getStats/lec/{id}")
+    public String getLecturerStats(@PathVariable int id)
+    {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Lecturers ");
+        List<Lecturers> lect = query.list();
+        for(Lecturers l : lect)
+        {
+            System.out.println(l.getName());
+        }
+        return String.valueOf(id);
     }
 }

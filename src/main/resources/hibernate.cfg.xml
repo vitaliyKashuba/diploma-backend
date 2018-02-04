@@ -15,8 +15,6 @@
         <mapping class="vitaliy94.attendanceControl.model.Students"/>
         <mapping class="vitaliy94.attendanceControl.model.Subjects"/>
         <mapping class="vitaliy94.attendanceControl.model.VisitingInfo"/>
-        <!-- <property name="connection.username"/> -->
-        <!-- <property name="connection.password"/> -->
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
