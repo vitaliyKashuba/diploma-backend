@@ -18,6 +18,7 @@ public class Schedule {
     private Subjects subjectsBySubjectId;
     private Lecturers lecturersByLecturerId;
     private Collection<VisitingInfo> visitingInfosById;
+    private Integer groupId;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -122,5 +123,15 @@ public class Schedule {
 
     public void setVisitingInfosById(Collection<VisitingInfo> visitingInfosById) {
         this.visitingInfosById = visitingInfosById;
+    }
+
+    @Basic
+    @Column(name = "group_id", nullable = true)
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 }

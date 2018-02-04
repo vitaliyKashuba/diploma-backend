@@ -55,7 +55,12 @@ public class RequestController
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Lecturers where id=" + id);
         Lecturers lect = (Lecturers) query.list().get(0);
-        System.out.println(lect.getName() + " " + lect.getSchedulesById().toString());
+        System.out.println(lect.getName());
+        Collection<Schedule> schedule = lect.getSchedulesById();
+        for(Schedule s : schedule)
+        {
+            System.out.println(s.getId() + " " + s.getTime() + " " + s.getClass());
+        }
         return String.valueOf(id);
     }
 
