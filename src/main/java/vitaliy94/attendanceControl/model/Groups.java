@@ -5,9 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-/**
- * Created by vitaliy on 04.02.2018.
- */
 @Entity
 public class Groups {
     private int id;

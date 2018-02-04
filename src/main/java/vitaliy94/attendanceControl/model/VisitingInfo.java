@@ -2,9 +2,6 @@ package vitaliy94.attendanceControl.model;
 
 import javax.persistence.*;
 
-/**
- * Created by vitaliy on 04.02.2018.
- */
 @Entity
 @Table(name = "visiting_info", schema = "public", catalog = "postgres")
 public class VisitingInfo {

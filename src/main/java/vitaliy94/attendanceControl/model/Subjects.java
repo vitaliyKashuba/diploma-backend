@@ -3,9 +3,6 @@ package vitaliy94.attendanceControl.model;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by vitaliy on 04.02.2018.
- */
 @Entity
 @Table(name = "subjects", schema = "public", catalog = "postgres")
 public class Subjects {

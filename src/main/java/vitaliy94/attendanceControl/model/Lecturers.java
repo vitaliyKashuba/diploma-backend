@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Collection;
 
-/**
- * Created by vitaliy on 04.02.2018.
- */
 @Entity
 @Table(name = "lecturers", schema = "public", catalog = "postgres")
 public class Lecturers {
@@ -77,38 +74,17 @@ public class Lecturers {
         this.photo = photo;
     }
 
+    /**
+     * class for collecting stats
+     */
     public static class Stats
     {
         String subjName;
         int attendance = 0;
         int actualGroupSize;
 
-        public String getSubjName() {
-            return subjName;
-        }
-
-        public int getAttendance() {
-            return attendance;
-        }
-
-        public int getActualGroupSize() {
-            return actualGroupSize;
-        }
-
-
-        public void setSubjName(String subjName) {
-            this.subjName = subjName;
-        }
-
-        public void setAttendance(int attendance) {
-            this.attendance = attendance;
-        }
-
-        public void setActualGroupSize(int actualGroupSize) {
-            this.actualGroupSize = actualGroupSize;
-        }
-
-        public Stats(String subjName, int attendance, int actualGroupSize) {
+        public Stats(String subjName, int attendance, int actualGroupSize)
+        {
             this.subjName = subjName;
             this.attendance = attendance;
             this.actualGroupSize = actualGroupSize;

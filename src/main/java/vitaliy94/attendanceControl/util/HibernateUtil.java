@@ -5,9 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-/**
- * Created by vitaliy on 01.02.2018.
- */
 public class HibernateUtil
 {
     private static final SessionFactory ourSessionFactory;

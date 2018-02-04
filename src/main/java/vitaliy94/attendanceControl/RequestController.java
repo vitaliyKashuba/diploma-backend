@@ -17,10 +17,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by vitaliy on 01.02.2018.
- */
-
 @RestController
 public class RequestController
 {
@@ -52,6 +48,13 @@ public class RequestController
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    /**
+     * query lecturer DB for stats
+     * return it like [{subjName, attendance, actualGroupSize},...]
+     *
+     * @param id lecturer id
+     * @return lecturer stats in JSON
+     */
     @RequestMapping("/getStats/lec/{id}")
     public ResponseEntity<String> getLecturerStats(@PathVariable int id)
     {
