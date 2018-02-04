@@ -29,7 +29,7 @@ public class RequestController
     }
 
     @RequestMapping("/getLecturers")
-    public ResponseEntity<String> testDb()
+    public ResponseEntity<String> getLecturers()
     {
         String responseBody="";
         Session session = HibernateUtil.getSession();
@@ -49,7 +49,15 @@ public class RequestController
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
-
+    @RequestMapping("/getStats/lec/{id}")
+    public String getLecturerStats(@PathVariable int id)
+    {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Lecturers where id=" + id);
+        Lecturers lect = (Lecturers) query.list().get(0);
+        System.out.println(lect.getName() + " " + lect.getSchedulesById().toString());
+        return String.valueOf(id);
+    }
 
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
     public void postTest(@RequestBody String data)
@@ -57,21 +65,4 @@ public class RequestController
         System.out.println("POST" + data);
     }
 
-    @RequestMapping("/getStats/lec/{id}")
-    public String getLecturerStats(@PathVariable int id)
-    {
-        Session session = HibernateUtil.getSession();
-        Query query = session.createQuery("from Lecturers ");
-        List<Lecturers> lect = query.list();
-        for(Lecturers l : lect)
-        {
-            System.out.println(l.getName());
-            Collection<Schedule> c = l.getSchedulesById();
-            for (Schedule s : c)
-            {
-                System.out.println(s.getRoom());
-            }
-        }
-        return String.valueOf(id);
-    }
 }

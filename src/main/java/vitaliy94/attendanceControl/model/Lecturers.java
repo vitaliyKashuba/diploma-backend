@@ -15,6 +15,7 @@ public class Lecturers {
     private String name;
     @JsonIgnore
     private Collection<Schedule> schedulesById;
+    private String photo;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -64,5 +65,15 @@ public class Lecturers {
 
     public void setSchedulesById(Collection<Schedule> schedulesById) {
         this.schedulesById = schedulesById;
+    }
+
+    @Basic
+    @Column(name = "photo", nullable = true, length = 150)
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
