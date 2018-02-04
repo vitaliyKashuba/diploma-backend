@@ -1,5 +1,7 @@
 package vitaliy94.attendanceControl.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Collection;
 
@@ -11,6 +13,7 @@ import java.util.Collection;
 public class Lecturers {
     private int id;
     private String name;
+    @JsonIgnore
     private Collection<Schedule> schedulesById;
 
     @Id
