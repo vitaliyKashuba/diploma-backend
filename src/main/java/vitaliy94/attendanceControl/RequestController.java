@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vitaliy94.attendanceControl.model.Lecturers;
 import vitaliy94.attendanceControl.model.Schedule;
+import vitaliy94.attendanceControl.model.Students;
 import vitaliy94.attendanceControl.model.VisitingInfo;
 import vitaliy94.attendanceControl.util.AppUtil;
 import vitaliy94.attendanceControl.util.HibernateUtil;
@@ -124,6 +125,18 @@ public class RequestController
             e.printStackTrace();
         }
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    @RequestMapping("/getStats/stud/{id}")
+    public ResponseEntity<String> getStudentStats(@PathVariable int id)
+    {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Students where id=" + id);
+        Students stud = (Students) query.list().get(0);
+
+
+
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)

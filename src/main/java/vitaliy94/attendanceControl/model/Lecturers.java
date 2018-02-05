@@ -89,5 +89,29 @@ public class Lecturers {
             this.attendance = attendance;
             this.actualGroupSize = actualGroupSize;
         }
+
+        public String getSubjName() {
+            return subjName;
+        }
+
+        public void setSubjName(String subjName) {
+            this.subjName = subjName;
+        }
+
+        public int getAttendance() {
+            return attendance;
+        }
+
+        public void setAttendance(int attendance) {
+            this.attendance = attendance;
+        }
+
+        public int getActualGroupSize() {
+            return actualGroupSize;
+        }
+
+        public void setActualGroupSize(int actualGroupSize) {
+            this.actualGroupSize = actualGroupSize;
+        }
     }
 }
