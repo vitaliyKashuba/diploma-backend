@@ -3,7 +3,6 @@ package vitaliy94.attendanceControl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +30,7 @@ public class RequestController
      * @return list of lecturers in JSON
      */
     @RequestMapping("/getLecturers")
-    public ResponseEntity<String> getLecturers()
+    public ResponseEntity getLecturers()
     {
         String responseBody="";
         Session session = HibernateUtil.getSession();
@@ -48,7 +47,7 @@ public class RequestController
         {
             session.close();
         }
-        return new ResponseEntity<>(responseBody, getCORSHeader(), HttpStatus.OK);
+        return AppUtil.responseWithCORSHeader(responseBody);
     }
 
     /**
@@ -59,7 +58,7 @@ public class RequestController
      * @return lecturer stats in JSON
      */
     @RequestMapping("/getStats/lec/{id}")
-    public ResponseEntity<String> getLecturerStats(@PathVariable int id)
+    public ResponseEntity getLecturerStats(@PathVariable int id)
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Lecturers where id=" + id);
@@ -84,14 +83,14 @@ public class RequestController
         {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return AppUtil.responseWithCORSHeader(responseBody);
     }
 
     /**
      * @return list of groups in JSON
      */
     @RequestMapping("/getGroups")
-    public ResponseEntity<String> getGroups()
+    public ResponseEntity getGroups()
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Groups");
@@ -103,7 +102,7 @@ public class RequestController
         {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return AppUtil.responseWithCORSHeader(responseBody);
     }
 
     /**
@@ -111,7 +110,7 @@ public class RequestController
      * @return list of group in JSON
      */
     @RequestMapping("/getStudents/{id}")
-    public ResponseEntity<String> getStudents(@PathVariable int id)
+    public ResponseEntity getStudents(@PathVariable int id)
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Students where groupId = " + id);
@@ -123,7 +122,7 @@ public class RequestController
         {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return AppUtil.responseWithCORSHeader(responseBody);
     }
 
     @RequestMapping("/getStats/stud/{id}")
@@ -142,13 +141,6 @@ public class RequestController
     public void postTest(@RequestBody String data)
     {
         System.out.println("POST" + data);
-    }
-
-    private static HttpHeaders getCORSHeader()
-    {
-        HttpHeaders h = new HttpHeaders();  //ad-hocked because of cross-domain request. fix it later
-        h.add("Access-Control-Allow-Origin", "*");
-        return h;
     }
 
 }
