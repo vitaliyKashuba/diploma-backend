@@ -3,19 +3,18 @@ package vitaliy94.attendanceControl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vitaliy94.attendanceControl.model.Lecturers;
 import vitaliy94.attendanceControl.model.Schedule;
 import vitaliy94.attendanceControl.model.Students;
-import vitaliy94.attendanceControl.model.VisitingInfo;
 import vitaliy94.attendanceControl.util.AppUtil;
 import vitaliy94.attendanceControl.util.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -49,7 +48,7 @@ public class RequestController
         {
             session.close();
         }
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+        return new ResponseEntity<>(responseBody, getCORSHeader(), HttpStatus.OK);
     }
 
     /**
@@ -143,6 +142,13 @@ public class RequestController
     public void postTest(@RequestBody String data)
     {
         System.out.println("POST" + data);
+    }
+
+    private static HttpHeaders getCORSHeader()
+    {
+        HttpHeaders h = new HttpHeaders();  //ad-hocked because of cross-domain request. fix it later
+        h.add("Access-Control-Allow-Origin", "*");
+        return h;
     }
 
 }
