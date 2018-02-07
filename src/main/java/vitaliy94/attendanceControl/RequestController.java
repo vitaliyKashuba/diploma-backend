@@ -122,9 +122,14 @@ public class RequestController
     public ResponseEntity<String> getStudentStats(@PathVariable int id)
     {
         Session session = HibernateUtil.getSession();
-        Query query = session.createQuery("from Students where id=" + id);
-        Students stud = (Students) query.list().get(0);
+        Query query = session.createQuery("from Schedule where groupId=" + "(select groupId from Students where id = " +id + ") ");
+        List<Schedule> schedule = query.list();
 
+        for(Schedule s : schedule)
+        {
+            System.out.println(s.getId() + " " + s.getSubjectsBySubjectId().getName() + " " + s.getLecturersByLecturerId().getName() + " " +
+            s.getTime());
+        }
 
 
         return new ResponseEntity<>("", HttpStatus.OK);
