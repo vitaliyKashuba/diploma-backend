@@ -128,7 +128,7 @@ public class RequestController
         for(Schedule s : schedule)
         {
             System.out.println(s.getId() + " " + s.getSubjectsBySubjectId().getName() + " " + s.getLecturersByLecturerId().getName() + " " +
-            s.getTime());
+            s.getTime() + " " + s.getLessonNumber());
         }
 
 
