@@ -119,20 +119,35 @@ public class RequestController
     }
 
     @RequestMapping("/getStats/stud/{id}")
-    public ResponseEntity<String> getStudentStats(@PathVariable int id)
+    public ResponseEntity getStudentStats(@PathVariable int id)
     {
         Session session = HibernateUtil.getSession();
-        Query query = session.createQuery("from Schedule where groupId=" + "(select groupId from Students where id = " +id + ") ");
+        Query query = session.createQuery("from Schedule where groupId =" +
+                                                "(select groupId from Students where id = " +id + ") ");
         List<Schedule> schedule = query.list();
 
+        Query query2 = session.createQuery("select scheduleId from VisitingInfo where studentId = " + id);
+        List<Integer> attendances = query2.list();
+
+        ArrayList<Students.Stats> stats = new ArrayList<>();
         for(Schedule s : schedule)
         {
-            System.out.println(s.getId() + " " + s.getSubjectsBySubjectId().getName() + " " + s.getLecturersByLecturerId().getName() + " " +
-            s.getTime() + " " + s.getLessonNumber());
+            stats.add(new Students.Stats(s.getSubjectsBySubjectId().getName(),
+                                         s.getLecturersByLecturerId().getName(),
+                                         s.getTime().toString().substring(0, 10),
+                                         s.getLessonNumber(),
+                                         attendances.contains(s.getId())));
         }
 
-
-        return new ResponseEntity<>("", HttpStatus.OK);
+        String responseBody="";
+        try
+        {
+            responseBody = AppUtil.objToString(stats);
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return AppUtil.responseWithCORSHeader(responseBody);
     }
 
     public void addAttendance()

@@ -89,4 +89,74 @@ public class Students {
     public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
+
+    /**
+     * attendance stats for serializing
+     * getters and setters need for jackson serializer
+     */
+    public static class Stats
+    {
+        String subject, lecturer, date;
+        int lessonNumber;
+        boolean attendance;
+
+        public Stats(String subject, String lecturer, String date, int lessonNumber, boolean attendance) {
+            this.subject = subject;
+            this.lecturer = lecturer;
+            this.date = date;
+            this.lessonNumber = lessonNumber;
+            this.attendance = attendance;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public void setSubject(String subject) {
+            this.subject = subject;
+        }
+
+        public String getLecturer() {
+            return lecturer;
+        }
+
+        public void setLecturer(String lecturer) {
+            this.lecturer = lecturer;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public int getLessonNumber() {
+            return lessonNumber;
+        }
+
+        public void setLessonNumber(int lessonNumber) {
+            this.lessonNumber = lessonNumber;
+        }
+
+        public boolean isAttendance() {
+            return attendance;
+        }
+
+        public void setAttendance(boolean attendance) {
+            this.attendance = attendance;
+        }
+
+        @Override
+        public String toString() {
+            return "Stats{" +
+                    "subject='" + subject + '\'' +
+                    ", lecturer='" + lecturer + '\'' +
+                    ", date='" + date + '\'' +
+                    ", lessonNumber=" + lessonNumber +
+                    ", attendance=" + attendance +
+                    '}';
+        }
+    }
 }
