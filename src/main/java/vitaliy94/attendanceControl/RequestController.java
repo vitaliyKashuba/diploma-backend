@@ -25,22 +25,9 @@ public class RequestController
     @RequestMapping("/getLecturers")
     public ResponseEntity getLecturers()
     {
-        String responseBody="";
         Session session = HibernateUtil.getSession();
-        try
-        {
-            Query query = session.createQuery("from Lecturers ");
-            List<Lecturers> lect = query.list();
-            responseBody = AppUtil.objToString(lect);
-
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        } finally
-        {
-            session.close();
-        }
-        return AppUtil.responseWithCORSHeader(responseBody);
+        Query query = session.createQuery("from Lecturers ");
+        return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(query.list()));
     }
 
     /**
@@ -68,15 +55,8 @@ public class RequestController
             int groupSize = q2.list().size();
             stats.add(new Lecturers.Stats(subjName, studCount, groupSize));
         }
-        String responseBody="";
-        try
-        {
-            responseBody = AppUtil.objToString(stats);
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-        return AppUtil.responseWithCORSHeader(responseBody);
+
+        return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(stats));
     }
 
     /**
@@ -87,15 +67,7 @@ public class RequestController
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Groups");
-        String responseBody="";
-        try
-        {
-            responseBody = AppUtil.objToString(query.list());
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-        return AppUtil.responseWithCORSHeader(responseBody);
+        return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(query.list()));
     }
 
     /**
@@ -107,15 +79,7 @@ public class RequestController
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Students where groupId = " + id);
-        String responseBody="";
-        try
-        {
-            responseBody = AppUtil.objToString(query.list());
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-        return AppUtil.responseWithCORSHeader(responseBody);
+        return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(query.list()));
     }
 
     @RequestMapping("/getStats/stud/{id}")
@@ -139,15 +103,7 @@ public class RequestController
                                          attendances.contains(s.getId())));
         }
 
-        String responseBody="";
-        try
-        {
-            responseBody = AppUtil.objToString(stats);
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        }
-        return AppUtil.responseWithCORSHeader(responseBody);
+        return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(stats));
     }
 
     public void addAttendance()

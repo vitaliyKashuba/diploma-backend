@@ -25,4 +25,21 @@ public class AppUtil
     {
         return new ResponseEntity(responseBody, getCORSHeader(), HttpStatus.OK);
     }
+
+    /**
+     * dont know how is possible to catch JsonProcessingException
+     * extract this to simplify code and make it DRY
+     */
+    public static String GenerateJSONResponse(Object o)
+    {
+        String responseBody="";
+        try
+        {
+            responseBody = objToString(o);
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        }
+        return responseBody;
+    }
 }
