@@ -19,13 +19,6 @@ import java.util.List;
 @RestController
 public class RequestController
 {
-    @RequestMapping("/")
-    public String helloWorld()
-    {
-        System.out.println("hello world");
-        return "Hello world!";
-    }
-
     /**
      * @return list of lecturers in JSON
      */
@@ -136,6 +129,9 @@ public class RequestController
 
         return new ResponseEntity<>("", HttpStatus.OK);
     }
+
+    public void addAttendance()
+    {}
 
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
     public void postTest(@RequestBody String data)
