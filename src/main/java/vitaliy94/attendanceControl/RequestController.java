@@ -43,16 +43,15 @@ public class RequestController
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Lecturers where id=" + id);
         Lecturers lect = (Lecturers) query.list().get(0);
-        System.out.println(lect.getName());
         Collection<Schedule> schedule = lect.getSchedulesById();
         ArrayList<Lecturers.Stats> stats = new ArrayList<>();
         for(Schedule s : schedule)
         {
             String subjName = s.getSubjectsBySubjectId().getName();
-            Query q = session.createQuery("from VisitingInfo where scheduleId = " + s.getId());
-            int studCount = q.list().size();
-            Query q2 = session.createQuery("from Students where groupId = " + s.getGroupId());
-            int groupSize = q2.list().size();
+            query = session.createQuery("from VisitingInfo where scheduleId = " + s.getId());
+            int studCount = query.list().size();
+            query = session.createQuery("from Students where groupId = " + s.getGroupId());
+            int groupSize = query.list().size();
             stats.add(new Lecturers.Stats(subjName, studCount, groupSize));
         }
 
@@ -90,8 +89,8 @@ public class RequestController
                                                 "(select groupId from Students where id = " +id + ") ");
         List<Schedule> schedule = query.list();
 
-        Query query2 = session.createQuery("select scheduleId from VisitingInfo where studentId = " + id);
-        List<Integer> attendances = query2.list();
+        query = session.createQuery("select scheduleId from VisitingInfo where studentId = " + id);
+        List<Integer> attendances = query.list();
 
         ArrayList<Students.Stats> stats = new ArrayList<>();
         for(Schedule s : schedule)
