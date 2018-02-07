@@ -81,6 +81,12 @@ public class RequestController
         return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(query.list()));
     }
 
+    /**
+     * return attendance stats
+     * contains lesson, lecture name, date, pair number and fact of attendance
+     * @param id student id
+     * @return students stats in JSON
+     */
     @RequestMapping("/getStats/stud/{id}")
     public ResponseEntity getStudentStats(@PathVariable int id)
     {
@@ -95,11 +101,11 @@ public class RequestController
         ArrayList<Students.Stats> stats = new ArrayList<>();
         for(Schedule s : schedule)
         {
-            stats.add(new Students.Stats(s.getSubjectsBySubjectId().getName(),
-                                         s.getLecturersByLecturerId().getName(),
-                                         s.getTime().toString().substring(0, 10),
-                                         s.getLessonNumber(),
-                                         attendances.contains(s.getId())));
+            stats.add(new Students.Stats(s.getSubjectsBySubjectId().getName(),      // subj name
+                                         s.getLecturersByLecturerId().getName(),    // lecture name
+                                         s.getTime().toString().substring(0, 10),   // date 'converted' to string
+                                         s.getLessonNumber(),                       // number of lesson in day schedule
+                                         attendances.contains(s.getId())));         // is attended
         }
 
         return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(stats));
