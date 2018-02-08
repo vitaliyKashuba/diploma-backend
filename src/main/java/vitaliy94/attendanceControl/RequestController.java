@@ -111,10 +111,21 @@ public class RequestController
     }
 
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
-    public void addAttenfance(@RequestBody String data)
+    public void addAttendance(@RequestBody String data)
     {
-        System.out.println("POST" + data);
+        String[] dt = data.split(":");
+        String auditory = dt[0];
+        String rfidCode = dt[1].replace("\r", "");
+        System.out.println(auditory + " " + rfidCode);
 
+        Date time = new Date();
+        int lessonNumber = AppUtil.getPairNumber(AppUtil.timeCreator(time.getHours(), time.getMinutes()), 15);
+
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("from Students where rfidcode = \'" + rfidCode + "\'");
+        System.out.println(query.getQueryString());
+        Students student = (Students) query.list().get(0);
+        System.out.println("s id = " + student.getId());
     }
 
     @RequestMapping("/debug")
