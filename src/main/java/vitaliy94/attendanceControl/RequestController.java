@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import vitaliy94.attendanceControl.model.Lecturers;
 import vitaliy94.attendanceControl.model.Schedule;
 import vitaliy94.attendanceControl.model.Students;
+import vitaliy94.attendanceControl.model.VisitingInfo;
 import vitaliy94.attendanceControl.util.AppUtil;
 import vitaliy94.attendanceControl.util.HibernateUtil;
 
@@ -110,29 +111,38 @@ public class RequestController
         return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(stats));
     }
 
+    /**
+     * insert into visiting_info if found keys in schedule and student
+     * @param data data comes from arduino like 'auditory:fridkey'
+     */
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
-    public void addAttendance(@RequestBody String data)
+    public void addAttendance(@RequestBody String data) //TODO check all use-cases, add exception and params check
     {
         String[] dt = data.split(":");
         String auditory = dt[0];
-        String rfidCode = dt[1].replace("\r", "");
-        System.out.println(auditory + " " + rfidCode);
+        String rfidCode = AppUtil.removeControlCharacters(dt[1]);
 
         Date time = new Date();
         int lessonNumber = AppUtil.getPairNumber(AppUtil.timeCreator(time.getHours(), time.getMinutes()), 15);
 
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Students where rfidcode = \'" + rfidCode + "\'");
-        System.out.println(query.getQueryString());
         Students student = (Students) query.list().get(0);
-        System.out.println("s id = " + student.getId());
-    }
 
-    @RequestMapping("/debug")
-    public void debug()
-    {
-        Date d = new Date();
-        System.out.println(AppUtil.getPairNumber(AppUtil.timeCreator(d.getHours(), d.getMinutes()), 15));
+        query = session.createQuery("from Schedule where room=" + auditory + " and lessonNumber = " + lessonNumber);
+        List sch = query.list();
+        if(sch.size() == 0)
+        {
+            System.out.println("no lesson found with this params");//TDO add logger here
+        }
+        Schedule schedule = (Schedule) sch.get(0);
+
+        session.beginTransaction();
+        VisitingInfo vi = new VisitingInfo();
+        vi.setScheduleId(schedule.getId());
+        vi.setStudentId(student.getId());
+        session.saveOrUpdate(vi);
+        session.getTransaction().commit();
     }
 
 }

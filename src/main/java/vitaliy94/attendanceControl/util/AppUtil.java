@@ -14,7 +14,7 @@ import java.util.Date;
 
 public class AppUtil
 {
-    public static String objToString(Object o) throws JsonProcessingException
+    static String objToString(Object o) throws JsonProcessingException
     {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(o);
@@ -87,8 +87,19 @@ public class AppUtil
         return OffsetTime.of(hours, min, 0, 0, ZoneOffset.UTC);
     }
 
+    /**
+     * @return true if attTime is in range of range minutes from lessonTime
+     */
     static boolean inRange(OffsetTime attTime, OffsetTime lessonTime, int range)
     {
-        return attTime.isBefore(lessonTime.plusMinutes(15)) && attTime.isAfter(lessonTime.minusMinutes(15));
+        return attTime.isBefore(lessonTime.plusMinutes(range)) && attTime.isAfter(lessonTime.minusMinutes(range));
+    }
+
+    /**
+     * remove '\r' and '\n' from arduino message
+     */
+    public static String removeControlCharacters(String s)
+    {
+        return s.replace("\r", "").replace("\n", "");
     }
 }
