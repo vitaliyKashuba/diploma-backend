@@ -6,6 +6,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 public class AppUtil
 {
     public static String objToString(Object o) throws JsonProcessingException
@@ -41,5 +47,48 @@ public class AppUtil
             e.printStackTrace();
         }
         return responseBody;
+    }
+
+    /**
+     * return number of pair
+     * 8.15 +- p mins -> 1
+     * 9.50 +- p mins -> 2
+     *
+     * @param range range in minutes
+     * @link schedule.sumdu.edu.ua
+     * @return lesson number or 0 if time is invalid
+     */
+    public static int getPairNumber(OffsetTime time, int range)
+    {
+        ArrayList<OffsetTime> lessons = new ArrayList<>();
+
+        lessons.add(timeCreator(8, 15));
+        lessons.add(timeCreator(9,50));
+        lessons.add(timeCreator(11,25));
+        lessons.add(timeCreator(13,25));
+        lessons.add(timeCreator(15,0));
+
+        for(int i = 0; i < lessons.size(); i++)
+        {
+            if (inRange(time, lessons.get(i), range))
+            {
+                return i++;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * use it to simplify time creating and avoid UTC param bugs when creating time like ZoneOffset.now()
+     */
+    public static OffsetTime timeCreator(int hours, int min)
+    {
+        return OffsetTime.of(hours, min, 0, 0, ZoneOffset.UTC);
+    }
+
+    static boolean inRange(OffsetTime attTime, OffsetTime lessonTime, int range)
+    {
+        return attTime.isBefore(lessonTime.plusMinutes(15)) && attTime.isAfter(lessonTime.minusMinutes(15));
     }
 }

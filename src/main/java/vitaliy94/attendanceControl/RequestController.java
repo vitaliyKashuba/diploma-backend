@@ -12,9 +12,8 @@ import vitaliy94.attendanceControl.model.Students;
 import vitaliy94.attendanceControl.util.AppUtil;
 import vitaliy94.attendanceControl.util.HibernateUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.time.OffsetTime;
+import java.util.*;
 
 @RestController
 public class RequestController
@@ -92,7 +91,7 @@ public class RequestController
     {
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery("from Schedule where groupId =" +
-                                                "(select groupId from Students where id = " +id + ") ");
+                                                "(select groupId from Students where id = " +id + ")");
         List<Schedule> schedule = query.list();
 
         query = session.createQuery("select scheduleId from VisitingInfo where studentId = " + id);
@@ -111,13 +110,18 @@ public class RequestController
         return AppUtil.responseWithCORSHeader(AppUtil.GenerateJSONResponse(stats));
     }
 
-    public void addAttendance()
-    {}
-
     @RequestMapping(value = "/post_test", method = RequestMethod.POST)
-    public void postTest(@RequestBody String data)
+    public void addAttenfance(@RequestBody String data)
     {
         System.out.println("POST" + data);
+
+    }
+
+    @RequestMapping("/debug")
+    public void debug()
+    {
+        Date d = new Date();
+        System.out.println(AppUtil.getPairNumber(AppUtil.timeCreator(d.getHours(), d.getMinutes()), 15));
     }
 
 }
